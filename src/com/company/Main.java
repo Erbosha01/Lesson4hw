@@ -8,7 +8,7 @@ public class Main {
     public static int bossDamage = 100;
     public static String bossDefence = "";
 
-    public static int[] heroesHealth = {270, 260, 250, 250, 300, 200, 150, 150};
+    public static int[] heroesHealth = {270, 260, 250, 250, 300, 200, 150, 1000};
     public static int[] heroesDamage = {15, 20, 25, 0, 10, 20, 15, 20};
     public static String[] heroesAttackType = {"Physical", "Magical", "Kinetic", "Hill", "Break", "Lucky", "Berserk", "Thor"};
     public static int round_number = 0;
@@ -31,6 +31,7 @@ public class Main {
         berserk();
         thor();
         printStatistics();
+        bossDamage();
     }
 
     public static void changeBossDefence() {
@@ -51,13 +52,16 @@ public class Main {
             }
         }
     }
+    public static void bossDamage() {
+        bossDamage = 100;
+    }
 
     public static void heroesHit() {
         for (int i = 0; i < heroesDamage.length; i++) {
             if (heroesHealth[i] > 0 && bossHealth > 0) {
                 if (heroesAttackType[i] == bossDefence) {
                     Random random = new Random();
-                    int coeff = random.nextInt(9) + 2; //2,3,4,5,6,7,8,9,10
+                    int coeff = random.nextInt(3) + 1;
                     if (bossHealth - heroesDamage[i] * coeff < 0) {
                         bossHealth = 0;
                     } else {
@@ -109,7 +113,7 @@ public class Main {
         if (heroesHealth[5] > 0) {
             Random random = new Random();
             boolean isHeLucky = random.nextBoolean();
-            if (isHeLucky == true) {
+            if (isHeLucky) {
                 heroesHealth[5] += bossDamage;
                 System.out.println("Is he lucky " + isHeLucky);
             } else {
@@ -131,12 +135,16 @@ public class Main {
             int bosDamageBeta2 = bossDamage;
             Random random2 = new Random();
             boolean doTheyGetHit = random2.nextBoolean();
-            if (doTheyGetHit == true) {
-                System.out.println("do they get hit " + doTheyGetHit);
-                bossDamage = bosDamageBeta2;
-            } else {
-                System.out.println("do they get hit " + doTheyGetHit);
+            if (doTheyGetHit) {
+                System.out.println("boss is Loh");
+                for (int i = 0; i < heroesHealth.length; i++) {
+                    if (heroesHealth[7] != i) {
+                        heroesHealth[i] += bossDamage;
+                    }
+                }
                 bossDamage = 0;
+            } else {
+                bossDamage = bosDamageBeta2;
             }
         }
     }
